@@ -134,3 +134,47 @@ describe("matching cities to foods", () => {
 // 1 - afterEach
 // 2 - afterAll
 // 1 - afterAll
+
+/*
+Jest는 실제 테스트를 실행하기 전에 테스트 파일의 모든 describe 처리기를 실행합니다. 이것은 describe 블럭 내부보다 
+before*와 after* 내에서 설정과 분해를 수행하는 또 다른 이유입니다. describe 블럭이 완료되면, 
+기본적으로 Jest는 수집 단계에서 만난 순서대로 다음 단계로 순차적으로 모든 테스트를 수행하며, 
+다음 단계로 이동하기 전에 각각이 완료되고 정리되기를 기다립니다.
+*/
+
+describe("outer", () => {
+  console.log("describe outer-a");
+
+  describe("describe inner 1", () => {
+    console.log("describe inner 1");
+    test("test 1", () => {
+      console.log("test for describe inner 1");
+      expect(true).toEqual(true);
+    });
+  });
+
+  console.log("describe outer-b");
+
+  test("test 1", () => {
+    console.log("test for describe outer");
+    expect(true).toEqual(true);
+  });
+
+  describe("describe inner 2", () => {
+    console.log("describe inner 2");
+    test("test for describe inner 2", () => {
+      console.log("test for describe inner 2");
+      expect(false).toEqual(false);
+    });
+  });
+  console.log("describe outer-c");
+});
+
+// describe outer-a
+// describe inner 1
+// describe outer-b
+// describe inner 2
+// describe outer-c
+// test for describe inner 1
+// test for describe outer
+// test for describe inner 2
