@@ -178,3 +178,14 @@ describe("outer", () => {
 // test for describe inner 1
 // test for describe outer
 // test for describe inner 2
+
+// 테스트가 실패하는 경우, 가장 먼저 확인해야 할 사항 중 하나는 수행할 테스트가 유일할 경우 테스트가 실패하는가의 여부여야 합니다.
+//  Jest에서 단 하나의 테스트만 수행하기 위해, 임시적으로 그 test 명령어를 test.only로 변경하세요
+
+test.only("이 테스트는 수행할 유일한 테스트가 될 것입니다", () => {
+  expect(true).toBe(false);
+});
+
+test("이 테스트는 수행되지 않을 것입니다", () => {
+  expect("A").toBe("A");
+});
