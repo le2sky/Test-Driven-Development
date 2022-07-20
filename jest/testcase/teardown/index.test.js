@@ -9,16 +9,26 @@ const isCity = (city) => {
   return database.cities.includes(city);
 };
 
-function initializeCityDatabase() {
-  database.cities = ["Vienna", "San Juan"];
+async function initializeCityDatabase() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      database.cities = ["Vienna", "San Juan"];
+      resolve();
+    }, 2000);
+  });
 }
 
 function clearCityDatabase() {
   delete database.cities;
 }
 
+// beforeEach(() => {
+//   initializeCityDatabase();
+// });
+
+// async
 beforeEach(() => {
-  initializeCityDatabase();
+  return initializeCityDatabase();
 });
 
 afterEach(() => {
@@ -30,5 +40,23 @@ test("city database has vienna", () => {
 });
 
 test("city database has san juan", () => {
+  expect(isCity("San Juan")).toBeTruthy();
+});
+
+//경우에 따라, 파일의 시작 부분에 한 번만 설정할 필요가 있습니다. 설정이 비동기인 경우 특히 귀찮을 수 있으므
+//로, 인라인으로 설정 할 수 없습니다. Jest는 이 상황을 처리하기 위한 beforeAll과 afterAll을 제공합니다.
+
+beforeAll(() => {
+  return initializeCityDatabase();
+});
+
+afterAll(() => {
+  return clearCityDatabase();
+});
+
+test("city database has vienna", () => {
+  expect(isCity("Vienna")).toBeTruthy();
+});
+test("city database has San Juan", () => {
   expect(isCity("San Juan")).toBeTruthy();
 });
