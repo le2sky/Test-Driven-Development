@@ -78,3 +78,18 @@ test("injection", () => {
 
   console.log(myMock(), myMock(), myMock(), myMock());
 });
+
+// 모의 함수는 연속 전달 스타일을 함수를 사용하는 코드에서 매우 효과적입니다.
+// 이 스타일로 작성된 코드는 사용되기 바로 전에 테스트에 직접 값을 주입시키기 위해서
+//  있는 실제 구성 요소의 동작을 재생성하는 복잡한 스텁에 대한 필요성을 방지하는데 도움이 됩니다.
+
+test("mockReturn", () => {
+  const filterTest = jest.fn();
+
+  filterTest.mockReturnValueOnce(true).mockReturnValueOnce(false);
+
+  const result = [11, 12].filter((num) => filterTest(num));
+
+  console.log(result);
+  console.log(filterTest.mock.calls);
+});
