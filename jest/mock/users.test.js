@@ -1,6 +1,5 @@
-import axios from "axios";
-import Users from "./users.mjs";
-import { jest } from "@jest/globals";
+const axios = require("axios");
+const Users = require("./users");
 
 /*
 이제, 실제로 API에 영향을 미치지 않고 이 메서드를 테스트 하기 위해 (그리고 따라서 느리고 취약한 테스트를 생성하여), 
@@ -12,15 +11,13 @@ import { jest } from "@jest/globals";
 
 jest.mock("axios");
 
-console.log(axios);
-console.log(axios.get.mockResolvedValue);
-
 test("should fetch users", () => {
   const users = [{ name: "Bob" }];
   const resp = { data: users };
 
   axios.get.mockResolvedValue(resp);
 
+  // 또는 사용 사례에 따라 다음을 사용할 수 있습니다:
   // axios.get.mockImplementation(() => Promise.resolve(resp));
 
   return Users.all().then((data) => expect(data).toEqual(users));
